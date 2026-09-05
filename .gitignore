@@ -1,0 +1,23 @@
+# Системные папки JetBrains
+.idea/
+.project
+.settings/
+
+# Внутренние файлы Docker и базы данных
+.srv/
+
+# Системные папки самого WordPress, если они вдруг создадутся
+wp-admin/
+wp-includes/
+
+# Чтобы плагины WordPress тоже не летели в этот гит
+my-plugins/
+plugins/
+
+# Игнорируем стандартные темы WordPress
+themes/twentytwentythree/
+themes/twentytwentyfour/
+themes/twentytwentyfive/
+
+# Игнорируем файлы истории терминала PhpStorm
+*history*
