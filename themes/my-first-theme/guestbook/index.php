@@ -7,7 +7,8 @@
     <title>Guestbook :: Home</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
+<nav class="navbar navbar-expand-sm bg-body-tertiary"
+     data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
