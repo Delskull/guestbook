@@ -36,6 +36,28 @@
         </div>
     </div>
 </nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Error!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+            </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Success!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+            </div>
+        </div>
+    </div>
+    <form action="" class="mb-3">
+        <div class="form-floating">
+            <textarea class="form-control "  placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+            <label for="floatingTextarea">Comments</label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Send</button>
+    </form>
+    <hr>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
