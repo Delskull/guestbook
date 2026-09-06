@@ -26,7 +26,7 @@ services:
       - ./.srv/wordpress:/var/www/html
       - ./themes/:/var/www/html/wp-content/themes/
       - ./plugins/:/var/www/html/wp-content/plugins/
-      - ./mu-plugins/:/var/www/html/wp-content/mu-plugins/
+      - ./my-plugins/:/var/www/html/wp-content/my-plugins/
       - ./.srv/custom.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - mysql
