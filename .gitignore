@@ -21,3 +21,4 @@ themes/twentytwentyfive/
 
 # Игнорируем файлы истории терминала PhpStorm
 *history*
+.env
