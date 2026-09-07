@@ -13,13 +13,18 @@ services:
       - ./.srv/database:/var/lib/mysql
 
   wordpress:
-    image: wordpress:latest
+    build: .
     restart: always
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: ${DB_USER}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
     ports:
       - "8081:80"
     volumes:

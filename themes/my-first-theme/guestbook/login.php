@@ -1,3 +1,9 @@
+<?php
+
+require_once __DIR__ . '/incs/db.php';
+
+
+?>
 <!doctype html>
 <html lang="ru">
 <head>
