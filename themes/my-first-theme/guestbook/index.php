@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/incs/db.php';
 
+/** @var PDO $db */
 
 ?>
 <!doctype html>
