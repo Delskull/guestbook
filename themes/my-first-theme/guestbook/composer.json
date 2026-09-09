@@ -1,0 +1,17 @@
+{
+    "name": "deluta/guestbook",
+    "autoload": {
+        "psr-4": {
+            "Deluta\\Guestbook\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Delskull",
+            "email": "Deluta1989@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/valitron": "*"
+    }
+}

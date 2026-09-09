@@ -27,7 +27,7 @@ require_once __DIR__ . '/views/incs/header.tpl.php';
 
         <form method="post">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="name" id="name" placeholder="name">
+                <input type="text" class="form-control" name="name" id="name" placeholder="name" required>
                 <label for="name">Name</label>
             </div>
 
