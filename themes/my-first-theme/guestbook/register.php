@@ -10,7 +10,25 @@ require_once __DIR__ . '/incs/functions.php';
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $data = load(['name', 'email', 'password']);
     $v = new Valitron\Validator($data);
-    var_dump($data);
+    $v -> rules([
+       'required' => ['name', 'email', 'password'],
+        'email' => ['email'],
+        'lengthMin' => [
+                ['password', 6]
+        ],
+        'lengthMax' => [
+                ['name',50],
+                ['email', 50]
+        ]
+    ]);
+    if ($v -> validate()) {
+        if (register($data, $db)) {
+            header('LOCATION: index.php');
+        }
+    }
+    else {
+        dump($v -> errors());
+    }
 }
 
 
@@ -32,12 +50,14 @@ require_once __DIR__ . '/views/incs/header.tpl.php';
 
         <form method="post">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="name" id="name" placeholder="name" required>
+                <input type="text" class="form-control" name="name" id="name" placeholder="name" required
+                value="<?= old('name') ?>">
                 <label for="name">Name</label>
             </div>
 
             <div class="form-floating">
-                <input type="email" class="form-control" name="email" id="email" placeholder="example@mail.com">
+                <input type="email" class="form-control" name="email" id="email" placeholder="example@mail.com"
+                       value="<?= old('email') ?>">
                 <label for="email">Email</label>
             </div>
 
