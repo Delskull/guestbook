@@ -1,5 +1,7 @@
 <?php
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . '/incs/db.php';
 
 
@@ -7,20 +9,33 @@ require_once __DIR__ . '/incs/db.php';
 <?php
 require_once __DIR__ . '/views/incs/header.tpl.php';
 ?>
-<div class="container mt-5 col-md-6 offset-md-3">
+    <div class="container mt-5 col-md-6 offset-md-3">
     <div class="row">
-        <div>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Error!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
-            </div>
+    <div>
+<?php if (isset($_SESSION['errors'])) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Error!
+        <?php
+        echo $_SESSION['errors'];
+        unset($_SESSION['errors']);
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+    </div>
+<?php endif; ?>
 
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                Success!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
-            </div>
+<?php if (isset($_SESSION['success'])) : ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Success!
+        <?php
+        echo $_SESSION['success'];
+        unset($_SESSION['success']);
+        ?>
 
-        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        <?php endif; ?>
+    </div>
+
+    </div>
     </div>
 
     <form action="">
@@ -37,8 +52,8 @@ require_once __DIR__ . '/views/incs/header.tpl.php';
         <button type="submit" class="btn btn-primary mt-3">Login</button>
     </form>
 
-</div>
+    </div>
 
-<?php
-require_once __DIR__ . '/views/incs/footer.tpl.php';
-?>
+    <?php
+    require_once __DIR__ . '/views/incs/footer.tpl.php';
+    ?>
