@@ -1,60 +1,60 @@
 <?php
- function dump (array|object $data): void
- {
-     echo '<pre>' . print_r($data, 1) . '</pre>';
- }
+function dump(array|object $data): void
+{
+    echo '<pre>' . print_r($data, 1) . '</pre>';
+}
 
- $fillable = ['name', 'email', 'password'];
- function load (array $fillable, $post = true): array
- {
-     $loadData = $post ? $_POST : $_GET;
-     $data = [];
-     foreach ($fillable as $field) {
-         if (isset($loadData[$field])) {
-             $data[$field] = trim($loadData[$field]);
-         }
-         else {
-             $data[$field] = '';
-         }
-     }
-     return $data;
- };
+function load(array $fillable, $post = true): array
+{
+    $loadData = $post ? $_POST : $_GET;
+    $data = [];
+    foreach ($fillable as $field) {
+        if (isset($loadData[$field])) {
+            $data[$field] = trim($loadData[$field]);
+        } else {
+            $data[$field] = '';
+        }
+    }
+    return $data;
+}
 
- function h($string)
- {
-     return htmlspecialchars($string ?? '',ENT_QUOTES, 'UTF-8');
- }
+;
 
- function old (string|int $name, bool $post = true) : string
- {
-     $load_data = $post ? $_POST : $_GET;
-     return isset($load_data[$name]) ? h($load_data[$name]) : '';
- }
+function h($string)
+{
+    return htmlspecialchars($string ?? '', ENT_QUOTES, 'UTF-8');
+}
 
- function register(array $data, PDO $db) : bool
- {
+function old(string|int $name, bool $post = true): string
+{
+    $load_data = $post ? $_POST : $_GET;
+    return isset($load_data[$name]) ? h($load_data[$name]) : '';
+}
 
-     $stmt = $db -> prepare("SELECT COUNT(*) FROM gb_users WHERE email = ?");
-     $stmt -> execute([$data['email']]);
-     if ($stmt -> fetchColumn()) {
-         $_SESSION['errors'] = 'This email already exist';
-         return false;
-     }
-     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-     $stmt = $db -> prepare('INSERT INTO gb_users (name, email, password) VALUES (:name, :email, :password)');
-     $stmt -> execute($data);
-     $_SESSION['success'] = 'You have success registered';
-     return true;
- }
+function register(array $data, PDO $db): bool
+{
 
- function redirect (string $url = '') :never
- {
-     header("LOCATION: {$url}");
-     die;
- }
+    $stmt = $db->prepare("SELECT COUNT(*) FROM gb_users WHERE email = ?");
+    $stmt->execute([$data['email']]);
+    if ($stmt->fetchColumn()) {
+        $_SESSION['errors'] = 'This email already exist';
+        return false;
+    }
+    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+    $stmt = $db->prepare('INSERT INTO gb_users (name, email, password) VALUES (:name, :email, :password)');
+    $stmt->execute($data);
+    $_SESSION['success'] = 'You have success registered';
+    return true;
+}
 
- function get_errors(array $errors): string
- {
+function redirect(string $url = ''): never
+{
+    header("LOCATION: {$url}");
+    die;
+}
+
+function get_errors(array $errors): string
+{
     $html = '<ul class="list-unstyled">';
     foreach ($errors as $errors_group) {
         foreach ($errors_group as $error) {
@@ -63,4 +63,23 @@
     }
     $html .= '</ul>';
     return $html;
- }
+}
+
+function login(array $data, PDO $db) : bool
+{
+    $stmt = $db->prepare("SELECT * FROM gb_users WHERE email = ?");
+    $stmt->execute([$data['email']]);
+    $row = $stmt->fetch();
+        if (!$row || !password_verify($data['password'], $row['password'])) {
+            $_SESSION['errors'] = 'wrong email or password';
+            return false;
+        }
+
+        foreach ( $row as $key => $value) {
+            if ($key != 'password') {
+                $_SESSION['user'][$key] = $value;
+            }
+        }
+
+     return true  ;
+}

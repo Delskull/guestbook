@@ -29,15 +29,15 @@ require_once __DIR__ . '/incs/header.tpl.php';
             </div>
         </div>
 
-        <form action="">
+        <form method="post">
 
             <div class="form-floating">
-                <input type="email" class="form-control" id="email" placeholder="example@mail.com">
+                <input type="email" class="form-control" name="email" id="email" placeholder="example@mail.com">
                 <label for="email">Email</label>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                 <label for="password">Password</label>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Login</button>
