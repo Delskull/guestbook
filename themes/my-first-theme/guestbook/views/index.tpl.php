@@ -28,15 +28,20 @@ require_once __DIR__ . '/incs/header.tpl.php';
             <?php endif; ?>
         </div>
     </div>
-    <form action="" class="mb-3">
+
+    <?php if (check_auth()) : ?>
+
+    <form method="post" class="mb-3">
         <div class="form-floating">
-            <textarea class="form-control " placeholder="Leave a comment here" id="floatingTextarea"
+            <textarea name="message" class="form-control " placeholder="Leave a comment here" id="floatingTextarea"
                       style="height: 100px"></textarea>
             <label for="floatingTextarea">Comments</label>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Send</button>
+        <button name="send-message" type="submit" class="btn btn-primary mt-3">Send</button>
     </form>
     <hr>
+
+    <?php endif; ?>
 
     <div class="row">
         <div class="col-12">

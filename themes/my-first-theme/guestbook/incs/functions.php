@@ -91,3 +91,18 @@ function check_admin(): bool
 {
     return isset($_SESSION['user']) && $_SESSION['user']['role'] === 2;
 }
+
+function save_messages(array $data, PDO $db) : bool
+{
+if (!check_auth()) {
+    $_SESSION['errors'] = 'Login required';
+    return false;
+}
+$stmt = $db -> prepare("INSERT INTO gb_messages (user_id, message) VALUES (?,?)");
+$stmt -> execute([
+    $_SESSION['user']['id'],
+    $data['message']
+]);
+$_SESSION['success'] = 'your message add';
+return true;
+}
