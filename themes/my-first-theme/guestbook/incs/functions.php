@@ -74,12 +74,20 @@ function login(array $data, PDO $db) : bool
             $_SESSION['errors'] = 'wrong email or password';
             return false;
         }
-
         foreach ( $row as $key => $value) {
             if ($key != 'password') {
                 $_SESSION['user'][$key] = $value;
             }
         }
-
+    $_SESSION['success'] = 'You have success login';
      return true  ;
+}
+function check_auth(): bool
+{
+    return isset($_SESSION['user']);
+}
+
+function check_admin(): bool
+{
+    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 2;
 }

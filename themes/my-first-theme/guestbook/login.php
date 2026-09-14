@@ -2,12 +2,18 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+
 $title = 'Login';
 
 /** @var PDO $db */
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/incs/functions.php';
 require_once __DIR__ . '/incs/db.php';
+
+if (check_auth()) {
+    redirect('index.php');
+}
 
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -18,14 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         'email' => ['email'],
     ]);
 
-    if ($v->validate()) {
-        if (login($data, $db)) {
-            redirect('index.php');
-        }
-
-    } else {
-
+    if (!$v -> validate()) {
         $_SESSION['errors'] = get_errors($v->errors());
+        redirect('login.php');
     }
+    if (!login($data, $db)) {
+        redirect('login.php');
+    }
+    redirect('index.php');
 }
 require_once __DIR__ . '/views/login.tpl.php';

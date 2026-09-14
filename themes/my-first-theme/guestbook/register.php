@@ -11,6 +11,10 @@ require_once __DIR__ . '/incs/db.php';
 require_once __DIR__ . '/incs/functions.php';
 /** @var PDO $db */
 
+if (check_auth()) {
+    redirect('index.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $data = load(['name', 'email', 'password']);
     $v = new Valitron\Validator($data);
