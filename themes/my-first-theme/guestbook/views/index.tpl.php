@@ -48,12 +48,13 @@ require_once __DIR__ . '/incs/header.tpl.php';
             <?php if (!empty($messages)) : ?>
                 <?php foreach ($messages as $message) : ?>
 
-                    <div class="card mb-3 <?php if (!$message['status']) echo 'border-danger' ?>" id="message-<?= $message['id'] ?>">
+                    <div class="card mb-3 <?php if (!$message['status']) echo 'border-danger' ?>"
+                         id="message-<?= $message['id'] ?>">
                         <div class="card-body">
 
                             <div class="d-flex justify-content-between">
 
-                                <h5 class="card-title"><?= $message['user_id'] ?></h5>
+                                <h5 class="card-title"><?= $message['name'] ?></h5>
                                 <p class="message-created"> <?= $message['created_at'] ?></p>
                             </div>
 
@@ -70,7 +71,8 @@ require_once __DIR__ . '/incs/header.tpl.php';
                                     <div class="collapse" id="collapse-<?= $message['id'] ?>">
                                         <form action="">
                                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="message-<?= $message['id'] ?>"
+                                <textarea class="form-control" placeholder="Leave a comment here"
+                                          id="message-<?= $message['id'] ?>"
                                           style="height: 100px"><?= $message['message'] ?>
                                 </textarea>
                                                 <label for="message-<?= $message['id'] ?>">Comments</label>

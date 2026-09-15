@@ -113,7 +113,8 @@ function get_messages( PDO $db)
     if (!check_admin()) {
         $where .= 'WHERE status = 1';
     }
-    $stmt = $db -> prepare("SELECT * FROM gb_messages {$where}");
+    $stmt = $db -> prepare("SELECT gb_messages.*, DATE_FORMAT(created_at, '%d.%m.%Y %H:%i') AS created_at,
+       gb_users.name FROM gb_messages JOIN gb_users ON gb_users.id = gb_messages.user_id {$where}");
     $stmt -> execute();
     return $stmt -> fetchAll();
 }
