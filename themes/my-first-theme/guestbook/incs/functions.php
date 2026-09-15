@@ -106,3 +106,14 @@ $stmt -> execute([
 $_SESSION['success'] = 'your message add';
 return true;
 }
+
+function get_messages( PDO $db)
+{
+    $where = '';
+    if (!check_admin()) {
+        $where .= 'WHERE status = 1';
+    }
+    $stmt = $db -> prepare("SELECT * FROM gb_messages {$where}");
+    $stmt -> execute();
+    return $stmt -> fetchAll();
+}

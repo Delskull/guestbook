@@ -6,6 +6,7 @@ $title = 'Home';
 require_once __DIR__ . '/incs/db.php';
 require_once __DIR__ . '/incs/functions.php';
 require_once __DIR__ . '/vendor/autoload.php';
+/** @var PDO $db */
 
 if(isset($_POST['send-message'])) {
     $data = load(['message']);
@@ -20,9 +21,9 @@ if(isset($_POST['send-message'])) {
         save_messages($data,$db);
     redirect('index.php');
     }
-
 }
 
-/** @var PDO $db */
+$messages = get_messages($db);
+//dump($messages);
 require_once __DIR__ . '/views/index.tpl.php';
 
