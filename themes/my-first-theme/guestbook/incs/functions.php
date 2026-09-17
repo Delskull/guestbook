@@ -107,14 +107,24 @@ $_SESSION['success'] = 'your message add';
 return true;
 }
 
-function get_messages( PDO $db)
+function get_messages(int $start, int $per_page, PDO $db)
 {
     $where = '';
     if (!check_admin()) {
         $where .= 'WHERE status = 1';
     }
     $stmt = $db -> prepare("SELECT gb_messages.*, DATE_FORMAT(created_at, '%d.%m.%Y %H:%i') AS created_at,
-       gb_users.name FROM gb_messages JOIN gb_users ON gb_users.id = gb_messages.user_id {$where}");
+       gb_users.name FROM gb_messages JOIN gb_users ON gb_users.id = gb_messages.user_id {$where}
+       LIMIT $start, $per_page");
     $stmt -> execute();
     return $stmt -> fetchAll();
+}
+function get_count_messages(PDO $db):int
+{
+    $where = '';
+    if (!check_admin()) {
+        $where .= 'WHERE status = 1';
+    }
+    $result = $db -> query("SELECT COUNT(*) FROM gb_messages {$where}");
+    return $result -> fetchColumn();
 }
