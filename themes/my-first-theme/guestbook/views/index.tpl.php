@@ -31,6 +31,7 @@ require_once __DIR__ . '/incs/header.tpl.php';
 
     <?php if (check_auth()) : ?>
 
+
         <form method="post" class="mb-3">
             <div class="form-floating">
             <textarea name="message" class="form-control " placeholder="Leave a comment here" id="floatingTextarea"
@@ -40,6 +41,12 @@ require_once __DIR__ . '/incs/header.tpl.php';
             <button name="send-message" type="submit" class="btn btn-primary mt-3">Send</button>
         </form>
         <hr>
+
+    <?php endif; ?>
+
+    <?php if (!empty($messages)): ?>
+
+        <?= $pagination ?>
 
     <?php endif; ?>
 
@@ -93,21 +100,11 @@ require_once __DIR__ . '/incs/header.tpl.php';
 
         </div>
     </div>
+    <?php if (!empty($messages)): ?>
 
-    <div class="row">
-        <div class="col-12">
+    <?= $pagination ?>
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <?php endif; ?>
 </div>
 <?php
 require_once __DIR__ . '/incs/footer.tpl.php';
