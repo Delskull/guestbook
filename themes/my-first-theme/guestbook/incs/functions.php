@@ -119,6 +119,7 @@ function get_messages(int $start, int $per_page, PDO $db)
        gb_users.name 
         FROM gb_messages 
         JOIN gb_users ON gb_users.id = gb_messages.user_id {$where}
+        ORDER BY id DESC 
         LIMIT $start, $per_page");
     $stmt->execute();
     return $stmt->fetchAll();
@@ -132,4 +133,18 @@ function get_count_messages(PDO $db): int
     }
     $result = $db->query("SELECT COUNT(*) FROM gb_messages {$where}");
     return $result->fetchColumn();
+}
+
+function toggle_status($status, $id, PDO $db)
+{
+    if (!check_admin()) {
+        $_SESSION['errors'] = 'Forbiden' ;
+        return false ;
+    }
+    $status = $status ? 1 : 0 ;
+    $stmt = $db -> prepare("UPDATE gb_messages SET status = ? WHERE id= ?");
+   return $stmt -> execute([
+       $status,
+       $id
+   ]);
 }
