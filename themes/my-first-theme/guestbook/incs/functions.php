@@ -65,23 +65,24 @@ function get_errors(array $errors): string
     return $html;
 }
 
-function login(array $data, PDO $db) : bool
+function login(array $data, PDO $db): bool
 {
     $stmt = $db->prepare("SELECT * FROM gb_users WHERE email = ?");
     $stmt->execute([$data['email']]);
     $row = $stmt->fetch();
-        if (!$row || !password_verify($data['password'], $row['password'])) {
-            $_SESSION['errors'] = 'wrong email or password';
-            return false;
+    if (!$row || !password_verify($data['password'], $row['password'])) {
+        $_SESSION['errors'] = 'wrong email or password';
+        return false;
+    }
+    foreach ($row as $key => $value) {
+        if ($key != 'password') {
+            $_SESSION['user'][$key] = $value;
         }
-        foreach ( $row as $key => $value) {
-            if ($key != 'password') {
-                $_SESSION['user'][$key] = $value;
-            }
-        }
+    }
     $_SESSION['success'] = 'You have success login';
-     return true  ;
+    return true;
 }
+
 function check_auth(): bool
 {
     return isset($_SESSION['user']);
@@ -92,19 +93,19 @@ function check_admin(): bool
     return isset($_SESSION['user']) && $_SESSION['user']['role'] === 2;
 }
 
-function save_messages(array $data, PDO $db) : bool
+function save_messages(array $data, PDO $db): bool
 {
-if (!check_auth()) {
-    $_SESSION['errors'] = 'Login required';
-    return false;
-}
-$stmt = $db -> prepare("INSERT INTO gb_messages (user_id, message) VALUES (?,?)");
-$stmt -> execute([
-    $_SESSION['user']['id'],
-    $data['message']
-]);
-$_SESSION['success'] = 'your message add';
-return true;
+    if (!check_auth()) {
+        $_SESSION['errors'] = 'Login required';
+        return false;
+    }
+    $stmt = $db->prepare("INSERT INTO gb_messages (user_id, message) VALUES (?,?)");
+    $stmt->execute([
+        $_SESSION['user']['id'],
+        $data['message']
+    ]);
+    $_SESSION['success'] = 'your message add';
+    return true;
 }
 
 function get_messages(int $start, int $per_page, PDO $db)
@@ -113,18 +114,22 @@ function get_messages(int $start, int $per_page, PDO $db)
     if (!check_admin()) {
         $where .= 'WHERE status = 1';
     }
-    $stmt = $db -> prepare("SELECT gb_messages.*, DATE_FORMAT(created_at, '%d.%m.%Y %H:%i') AS created_at,
-       gb_users.name FROM gb_messages JOIN gb_users ON gb_users.id = gb_messages.user_id {$where}
-       LIMIT $start, $per_page");
-    $stmt -> execute();
-    return $stmt -> fetchAll();
+    $stmt = $db->prepare(
+        "SELECT gb_messages.*, DATE_FORMAT(created_at, '%d.%m.%Y %H:%i') AS created_at,
+       gb_users.name 
+        FROM gb_messages 
+        JOIN gb_users ON gb_users.id = gb_messages.user_id {$where}
+        LIMIT $start, $per_page");
+    $stmt->execute();
+    return $stmt->fetchAll();
 }
-function get_count_messages(PDO $db):int
+
+function get_count_messages(PDO $db): int
 {
     $where = '';
     if (!check_admin()) {
         $where .= 'WHERE status = 1';
     }
-    $result = $db -> query("SELECT COUNT(*) FROM gb_messages {$where}");
-    return $result -> fetchColumn();
+    $result = $db->query("SELECT COUNT(*) FROM gb_messages {$where}");
+    return $result->fetchColumn();
 }
