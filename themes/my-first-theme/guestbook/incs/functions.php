@@ -148,3 +148,18 @@ function toggle_status($status, $id, PDO $db)
        $id
    ]);
 }
+
+function edit_messages(array $data, PDO $db): bool
+{
+    if (!check_admin()) {
+        $_SESSION['errors'] = 'Forbidden';
+        return false;
+    }
+    $stmt = $db->prepare("UPDATE gb_messages SET message = ? WHERE id = ?");
+    $stmt->execute([
+        $data['message'],
+        $data['id']
+    ]);
+    $_SESSION['success'] = 'message edited';
+    return true;
+}

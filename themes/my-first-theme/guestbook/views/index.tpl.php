@@ -6,7 +6,6 @@ require_once __DIR__ . '/incs/header.tpl.php';
         <div class="col-12 mb-4">
             <?php if (isset($_SESSION['errors'])) : ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Error!
                     <?php
                     echo $_SESSION['errors'];
                     unset($_SESSION['errors']);
@@ -17,7 +16,6 @@ require_once __DIR__ . '/incs/header.tpl.php';
 
             <?php if (isset($_SESSION['success'])) : ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Success!
                     <?php
                     echo $_SESSION['success'];
                     unset($_SESSION['success']);
@@ -83,15 +81,19 @@ require_once __DIR__ . '/incs/header.tpl.php';
                                         <a data-bs-toggle="collapse" href="#collapse-<?= $message['id'] ?>">Edit</a>
                                     </p>
                                     <div class="collapse" id="collapse-<?= $message['id'] ?>">
-                                        <form action="">
+                                        <form method="post">
                                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here"
+                                <textarea name="message" class="form-control" placeholder="Leave a comment here"
                                           id="message-<?= $message['id'] ?>"
                                           style="height: 100px"><?= $message['message'] ?>
                                 </textarea>
                                                 <label for="message-<?= $message['id'] ?>">Comments</label>
                                             </div>
-                                            <button type="submit" class="btn btn-primary mt-3">Save</button>
+
+                                            <input type="hidden" name="id" value="<?= $message['id'] ?>">
+                                        <input type="hidden" name="page" value="<?= $_GET['page'] ?? 1 ?>">
+
+                                            <button name="edit-message" type="submit" class="btn btn-primary mt-3">Save</button>
                                         </form>
                                     </div>
                                 </div>

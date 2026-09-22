@@ -23,6 +23,21 @@ if (isset($_POST['send-message'])) {
     }
 }
 
+if (isset($_POST['edit-message'])) {
+    $data = load(['message','id', 'page']);
+    $v = new \Valitron\Validator($data);
+    $v->rules([
+        'required' => ['message','id'],
+        'integer' => ['id', 'page']
+    ]);
+    if (!$v->validate()) {
+        $_SESSION['errors'] = get_errors($v->errors());
+    } else {
+        edit_messages($data, $db);
+        redirect("index.php?page={$data['page']}#message-{$data['id']}");
+    }
+}
+
 if (isset($_GET['do']) && $_GET['do'] === 'toggle-status') {
     $id = $_GET['id'] ?? 0;
     $status = isset($_GET['status']) ? (int)$_GET['status'] : 0;
